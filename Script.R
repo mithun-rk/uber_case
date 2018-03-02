@@ -1,4 +1,4 @@
-uberdata<- read.csv("Uber Request Data.csv")
+uberdata<- read.csv("Uber Request Data.csv", header = TRUE, stringsAsFactors = TRUE)
 head(uberdata)
 str(uberdata)
 # Variable descriptions
@@ -17,6 +17,9 @@ uberdata %>% count(uberdata$Status)
 # there seems to be high cancellations. 
 # there seem to be a extremely high no cars available status.
 
+completed_trip<- mutate(filter(uberdata$Status == "Trip Completed"))
+
+
 ggplot(data = uberdata, mapping = aes(x = uberdata$Pickup.point))+
   geom_bar(fill= c("red","darkred"))
 uberdata %>% count(uberdata$Pickup.point)
@@ -34,12 +37,20 @@ uberdata %>% count(uberdata$Status,uberdata$Pickup.point)
 # No cars available status is most frequent in airport. 
 # Trip completed does not show any picularity. 
 
+Completed_trip_by_request = 2831/6745
+Completed_trip_by_request
+# Here in lies the problem number one. 
+# Only 42% of trip request actually are honored.
+
+cancel_request = 1264/6745
+cancel_request
+# 19 % request are cancelled 
+
+non_avialability_on_request = 2630/6745
+non_avialability_on_request
+# 39% of request are not honoured for non availability of cars. 
 
 
-
-
-
-
-
-
-
+ggplot(data = uberdata, mapping = aes(x = uberdata$Driver.id))+
+  geom_bar()
+uberdata %>% count(uberdata$Driver.id)
